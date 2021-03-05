@@ -1,13 +1,7 @@
 /*
- * Copyright 2019, Data61
- * Commonwealth Scientific and Industrial Research Organisation (CSIRO)
- * ABN 41 687 119 230.
+ * Copyright 2019, Data61, CSIRO (ABN 41 687 119 230)
  *
- * This software may be distributed and modified according to the terms of
- * the BSD 2-Clause license. Note that NO WARRANTY is provided.
- * See "LICENSE_BSD2.txt" for details.
- *
- * @TAG(DATA61_BSD)
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 
 /* Implementation of a logical timer for imx platforms
@@ -87,7 +81,7 @@ static void destroy(void *data)
         ZF_LOGF_IF(imx_destroy_timeout(&imx_ltimer->timers), "Failed to destroy the timeout timer");
     }
 
-    ps_free(&imx_ltimer->ops.malloc_ops, sizeof(imx_ltimer), imx_ltimer);
+    ps_free(&imx_ltimer->ops.malloc_ops, sizeof(*imx_ltimer), imx_ltimer);
 }
 
 static int create_ltimer(ltimer_t *ltimer, ps_io_ops_t ops)

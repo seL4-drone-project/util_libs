@@ -1,13 +1,7 @@
 /*
- * Copyright 2017, Data61
- * Commonwealth Scientific and Industrial Research Organisation (CSIRO)
- * ABN 41 687 119 230.
+ * Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
  *
- * This software may be distributed and modified according to the terms of
- * the BSD 2-Clause license. Note that NO WARRANTY is provided.
- * See "LICENSE_BSD2.txt" for details.
- *
- * @TAG(DATA61_BSD)
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 
 #include <stdint.h>
@@ -46,6 +40,7 @@ struct imx6_gpio_regs {
     uint32_t direction;   /* +0x04 */
     uint32_t pad_status;  /* +0x08 */
     uint32_t int_cfg;     /* +0x0C */
+    uint32_t int_cfg2;    /* +0x10 */
     uint32_t int_mask;    /* +0x14 */
     uint32_t int_status;  /* +0x18 */
     uint32_t edge;        /* +0x1C */

@@ -1,13 +1,7 @@
 #
-# Copyright 2018, Data61
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# ABN 41 687 119 230.
+# Copyright 2018, Data61, CSIRO (ABN 41 687 119 230)
 #
-# This software may be distributed and modified according to the terms of
-# the BSD 2-Clause license. Note that NO WARRANTY is provided.
-# See "LICENSE_BSD2.txt" for details.
-#
-# @TAG(DATA61_BSD)
+# SPDX-License-Identifier: BSD-2-Clause
 #
 
 cmake_minimum_required(VERSION 3.8.2)
@@ -110,7 +104,17 @@ endif()
 if("${KernelPlatform}" STREQUAL "tx2")
     target_link_libraries(ethdrivers platsupportports)
 endif()
-target_link_libraries(
-    ethdrivers
-    "-Wl,--undefined=tx2_ether_qos_ptr,--undefined=zynq7000_gem_ptr,--undefined=imx_fec_ptr"
+
+# Get the list of driver modules
+string(
+    JOIN
+    ","
+    DriverModules
+    "-Wl"
+    "--undefined=tx_ether_qos_ptr"
+    "--undefined=zynq7000_gem_ptr"
+    "--undefined=imx_fec_ptr"
+    "--undefined=odroidc2_ethernet_ptr"
 )
+
+target_link_libraries(ethdrivers "${DriverModules}")

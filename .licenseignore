@@ -1,11 +1,6 @@
-LICENSE.txt
-.git/*
-*LICENSE_*.txt
-.licenseignore
-liblwip/include
-liblwip/default_opts
-liblwip/lwip-1.4.1
-libethdrivers/src/plat/zynq7000/uboot
-libethdrivers/src/plat/zynq7000/zynq_gem.h
-libfdt
-.stylefilter
+# Copyright 2019, Data61, CSIRO (ABN 41 687 119 230)
+# SPDX-License-Identifier: BSD-2-Clause
+
+# This is for the old D61 license check too that bamboo is still running
+
+libfdt/LICENSE

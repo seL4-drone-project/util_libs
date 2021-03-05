@@ -1,14 +1,8 @@
 /*
  * Copyright 2017, DornerWorks
- * Copyright 2017, Data61
- * Commonwealth Scientific and Industrial Research Organisation (CSIRO)
- * ABN 41 687 119 230.
+ * Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
  *
- * This software may be distributed and modified according to the terms of
- * the GNU General Public License version 2. Note that NO WARRANTY is provided.
- * See "LICENSE_GPLv2.txt" for details.
- *
- * @TAG(DATA61_GPL)
+ * SPDX-License-Identifier: GPL-2.0-only
  */
 
 #include <platsupport/driver_module.h>
@@ -110,7 +104,7 @@ static void fill_rx_bufs(struct eth_driver *driver)
         int next_rdt = (dev->rdt + 1) % dev->rx_size;
 
         // This fn ptr is either lwip_allocate_rx_buf or lwip_pbuf_allocate_rx_buf (in src/lwip.c)
-        uintptr_t phys = driver->i_cb.allocate_rx_buf? driver->i_cb.allocate_rx_buf(driver->cb_cookie, BUF_SIZE, &cookie): 0;
+        uintptr_t phys = driver->i_cb.allocate_rx_buf ? driver->i_cb.allocate_rx_buf(driver->cb_cookie, BUF_SIZE, &cookie) : 0;
         if (!phys) {
             // NOTE: This condition could happen if
             //       CONFIG_LIB_ETHDRIVER_NUM_PREALLOCATED_BUFFERS < CONFIG_LIB_ETHDRIVER_RX_DESC_COUNT
@@ -397,8 +391,8 @@ int ethif_imx6_init(struct eth_driver *eth_driver, ps_io_ops_t io_ops, void *con
         goto error;
     }
 
-    eth_data->tx_size = CONFIG_LIB_ETHDRIVER_RX_DESC_COUNT;
-    eth_data->rx_size = CONFIG_LIB_ETHDRIVER_TX_DESC_COUNT;
+    eth_data->tx_size = CONFIG_LIB_ETHDRIVER_TX_DESC_COUNT;
+    eth_data->rx_size = CONFIG_LIB_ETHDRIVER_RX_DESC_COUNT;
     eth_driver->eth_data = eth_data;
     eth_driver->dma_alignment = DMA_ALIGN;
     eth_driver->i_fn = iface_fns;
@@ -508,8 +502,15 @@ static int allocate_irq_callback(ps_irq_t irq, unsigned curr_num, size_t num_irq
         return -EINVAL;
     }
 
+    unsigned target_num = 0;
     callback_args_t *args = token;
-    if (curr_num == 0) {
+    if (config_set(CONFIG_PLAT_IMX6)) {
+        target_num = 0;
+    } else if (config_set(CONFIG_PLAT_IMX8MQ_EVK)) {
+        target_num = 2;
+    }
+
+    if (curr_num == target_num) {
         args->irq_id = ps_irq_register(&args->io_ops->irq_ops, irq, eth_irq_handle, args->eth_driver);
         if (args->irq_id < 0) {
             ZF_LOGE("Failed to register the Ethernet device's IRQ");
