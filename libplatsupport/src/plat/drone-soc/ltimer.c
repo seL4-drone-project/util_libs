@@ -34,7 +34,7 @@ static pmem_region_t pmems[] = {
     {
         .type = PMEM_TYPE_DEVICE,
         .base_addr = APB_TIMER_PADDR,
-        .length = PAGE_SIZE_4K
+        .length = 0x10000
     }
 };
 
